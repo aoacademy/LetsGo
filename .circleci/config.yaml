@@ -1,0 +1,54 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:latest
+    steps:
+      - checkout
+      - run: go build
+
+  lint:
+    docker:
+      - image: circleci/golang:latest
+    steps:
+      - checkout
+      - run:
+          name: Install golangci-lint
+          command: |
+            curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sudo sh -s -- -b $(go env GOPATH)/bin v1.15.0
+            golangci-lint --version
+      - run:
+          name: Lint
+          command: golangci-lint run --enable-all
+  test:
+    docker:
+      - image: circleci/golang:latest
+    steps:
+      - checkout
+      - run: go test ./...
+
+  coverage:
+    docker:
+      - image: circleci/golang:1.11
+    steps:
+      - checkout
+      - run:
+          name: "Create a temp directory for artifacts"
+          command: |
+            mkdir -p /tmp/artifacts
+      - run:
+          command: |
+            go test -coverprofile=c.out
+            go tool cover -html=c.out -o coverage.html
+            mv coverage.html /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+
+workflows:
+  version: 2
+  build-test-lint:
+    jobs:
+      - build
+      - lint
+      - test
+      - coverage
