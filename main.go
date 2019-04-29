@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+        "net/http"
+
+        "github.com/labstack/echo"
+)
 
 func main() {
-	fmt.Println("18.20 at Sep 07 2016 7:20 IR721")
+        e := echo.New()
+        e.GET("/ping", func(c echo.Context) error {
+                return c.String(http.StatusOK, "")
+        })
+        e.Logger.Fatal(e.Start(":1322"))
 }
