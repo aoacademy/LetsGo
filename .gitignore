@@ -14,5 +14,7 @@
 # Binary
 letsgo
 
+.idea
+
 conf.json
 ./conf.json

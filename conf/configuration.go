@@ -1,5 +1,7 @@
 package conf
 
 type Configuration struct {
-	Port int
+	Port       int
+	Database   string
+	Collection string
 }

@@ -1,3 +1,5 @@
 {
-  "bind-port": 80
+  "Port": 8082,
+  "Database": "aolab",
+  "Collection": "geo"
 }
