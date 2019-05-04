@@ -1,7 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"github.com/aolab/letsgo/conf"
+	"github.com/labstack/echo/v4"
+	"github.com/tkanos/gonfig"
+	"net/http"
+	"strconv"
+)
 
 func main() {
-	fmt.Println("18.20 at Sep 07 2016 7:20 IR721")
+	configuration := conf.Configuration{}
+	gonfig.GetConf("conf.json", &configuration)
+
+	e := echo.New()
+	e.GET("/ping", ping)
+	e.Logger.Fatal(e.Start(":" + strconv.Itoa(configuration.Port)))
+}
+
+func ping(c echo.Context) error {
+	return c.String(http.StatusOK, "")
 }
