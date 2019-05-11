@@ -1,5 +1,5 @@
 # LetsGo
-[![CircleCI](https://circleci.com/gh/AoLab/LetsGo.svg?style=svg)](https://circleci.com/gh/AoLab/LetsGo)
+[![CircleCI](https://circleci.com/gh/aoacademy/LetsGo.svg?style=svg)](https://circleci.com/gh/aoacademy/LetsGo)
 
 ## Introduction
 The aim of this project is to provide a basis to write a simple HTTP service in Go.
