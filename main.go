@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
 type test struct {
   lat  string `json:"name" form:"name" query:"name"`
   lng string `json:"email" form:"email" query:"email"`
