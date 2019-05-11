@@ -19,4 +19,7 @@ that is named `ping` and returns no content with 200 status.
 }
 ```
 
+4. Use [golangci-lint](https://github.com/golangci/golangci-lint) to lint your code :rocket:
+5. Write tests for your endpoints. In the tests you must use MongoDB and check your recently created record.
+
 For conntecting to Mongodb use the offical driver that can be found [here](https://github.com/mongodb/mongo-go-driver).
