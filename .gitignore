@@ -18,3 +18,6 @@ letsgo
 
 conf.json
 ./conf.json
+
+conf.test.json
+./conf.test.json

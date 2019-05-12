@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func HttpBind(configuration conf.Configuration, collection *mongo.Collection, ctx context.Context) {
+func AddPaths(collection *mongo.Collection, ctx context.Context) *echo.Echo {
 	e := New()
 	e.GET("/ping", handler.Ping)
 	e.POST("/insert", func(c echo.Context) error {
@@ -19,5 +19,10 @@ func HttpBind(configuration conf.Configuration, collection *mongo.Collection, ct
 		return handler.GetAll(c, collection, ctx)
 	})
 	e.GET("/get/:id", handler.GetById)
+	return e
+}
+
+func BindHttp(e *echo.Echo, configuration conf.Configuration) {
 	e.Logger.Fatal(e.Start(":" + strconv.Itoa(configuration.Port)))
+
 }

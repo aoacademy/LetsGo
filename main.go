@@ -12,5 +12,6 @@ func main() {
 	ctx := context.Background()
 	client := database.New(ctx, configuration)
 	collection := database.GetCollection(client, configuration.Database, configuration.Collection)
-	router.HttpBind(configuration, collection, ctx)
+	routing := router.AddPaths(collection, ctx)
+	router.BindHttp(routing, configuration)
 }

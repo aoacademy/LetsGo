@@ -21,3 +21,12 @@ func New() Configuration {
 	}
 	return configuration
 }
+
+func NewTest() Configuration {
+	configuration := Configuration{}
+	err := gonfig.GetConf("conf.test.json", &configuration)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return configuration
+}

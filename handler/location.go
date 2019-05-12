@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/aolab/letsgo/messages"
 	"github.com/aolab/letsgo/models"
 	"github.com/labstack/echo/v4"
@@ -12,7 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 func GetAll(c echo.Context, collection *mongo.Collection, ctx context.Context) error {
@@ -20,25 +18,20 @@ func GetAll(c echo.Context, collection *mongo.Collection, ctx context.Context) e
 	if err != nil {
 		log.Fatal(err)
 	}
-	var arr []models.Location
+	var result []models.Location
 	for cur.Next(ctx) {
-		var result bson.M
-		err := cur.Decode(&result)
+		var next models.Location
+		err := cur.Decode(&next)
 		if err != nil {
 			log.Fatal(err)
 		}
-		latInter, lngInter := result["lat"], result["lng"]
-		if latInter != nil && lngInter != nil {
-			lat, _ := strconv.ParseFloat(fmt.Sprintf("%v", latInter), 64)
-			lng, _ := strconv.ParseFloat(fmt.Sprintf("%v", lngInter), 64)
-			arr = append(arr, models.Location{Latitude: lat, Longitude: lng})
-		}
+		result = append(result, next)
 	}
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
 	}
 	var jsonData []byte
-	jsonData, err = json.Marshal(models.Response{Ok: true, Result: arr})
+	jsonData, err = json.Marshal(models.Response{Ok: true, Result: result})
 	if err != nil {
 		log.Println(err)
 	}
@@ -50,7 +43,7 @@ func Insert(c echo.Context, collection *mongo.Collection, ctx context.Context) e
 	if err := c.Bind(location); err != nil {
 		return c.JSON(http.StatusBadRequest, messages.BadRequest)
 	}
-	insertResult, err := collection.InsertOne(ctx, bson.M{"lat": location.Latitude, "lng": location.Longitude})
+	insertResult, err := collection.InsertOne(ctx, models.Location{Latitude: location.Latitude, Longitude: location.Longitude})
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, messages.ServiceUnavailable)
 	} else {
