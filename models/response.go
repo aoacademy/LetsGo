@@ -1,8 +1,7 @@
 package models
 
-//TODO use interface for result
 type Response struct {
 	Ok          bool
-	Result      string
+	Result      interface{}
 	Description string
 }
