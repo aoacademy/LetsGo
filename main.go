@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"github.com/aolab/letsgo/conf"
+	"github.com/aolab/letsgo/database"
+	"github.com/aolab/letsgo/router"
+)
 
 func main() {
-	fmt.Println("18.20 at Sep 07 2016 7:20 IR721")
+	configuration := conf.New()
+	ctx := context.Background()
+	client := database.New(ctx, configuration)
+	collection := database.GetCollection(client, configuration.Database, configuration.Collection)
+	routing := router.AddPaths(collection, ctx)
+	router.BindHttp(routing, configuration)
 }

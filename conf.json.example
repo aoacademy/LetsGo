@@ -1,0 +1,7 @@
+{
+  "Port": 8082,
+  "Database": "aolab",
+  "Collection": "geo"
+  "DatabasePort" : 27017,
+  "DatabaseAddress" : "localhost"
+}
